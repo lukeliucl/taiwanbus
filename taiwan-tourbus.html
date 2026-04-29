@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台灣觀光 Taiwan Tour Bus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&family=Noto+Sans+TC:wght@300;400;500&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dark: #8B6914;
+    --ink: #1A1410;
+    --ink-soft: #3D3228;
+    --cream: #FAF7F2;
+    --cream-dark: #F0EAE0;
+    --stone: #8C7B6A;
+    --forest: #2D5016;
+    --sky: #1B4E6B;
+    --red-tw: #A0272A;
+    --white: #FFFFFF;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 4rem;
+    height: 68px;
+    background: rgba(26,20,16,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo-icon {
+    width: 36px; height: 36px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: var(--ink);
+  }
+  .nav-logo-text {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15px; font-weight: 600;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+  }
+  .nav-links {
+    display: flex; gap: 2.5rem; list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none; font-size: 13px;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+  .nav-actions { display: flex; gap: 1rem; align-items: center; }
+  .lang-switch {
+    font-size: 12px; color: rgba(255,255,255,0.5);
+    cursor: pointer; letter-spacing: 0.05em;
+  }
+  .lang-switch span { color: var(--gold-light); }
+  .btn-book {
+    padding: 8px 20px;
+    background: var(--gold);
+    color: var(--ink);
+    border: none; border-radius: 2px;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; letter-spacing: 0.05em;
+    transition: background 0.2s;
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+  .btn-book:hover { background: var(--gold-light); }
+
+  /* ─── HERO ─── */
+  .hero {
+    height: 100vh;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(26,20,16,0.45) 0%, rgba(26,20,16,0.2) 50%, rgba(26,20,16,0.7) 100%),
+      url('https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?w=1600&q=80') center/cover no-repeat;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    max-width: 820px;
+    padding: 0 2rem;
+  }
+  .hero-badge {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    font-size: 11px; letter-spacing: 0.2em;
+    padding: 5px 16px;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+  .hero-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+    color: var(--gold-light);
+    font-weight: 400;
+  }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: rgba(255,255,255,0.75);
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    margin-bottom: 3rem;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  }
+  .btn-primary {
+    padding: 14px 36px;
+    background: var(--gold);
+    color: var(--ink);
+    border: none; border-radius: 2px;
+    font-size: 14px; font-weight: 500;
+    cursor: pointer; letter-spacing: 0.08em;
+    text-decoration: none;
+    transition: transform 0.2s, background 0.2s;
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    padding: 14px 36px;
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 2px;
+    font-size: 14px; font-weight: 300;
+    cursor: pointer; letter-spacing: 0.08em;
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s;
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold-light); transform: translateY(-2px); }
+
+  .hero-stats {
+    position: absolute; bottom: 3rem; left: 0; right: 0;
+    display: flex; justify-content: center; gap: 4rem;
+    z-index: 2;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; color: var(--gold-light);
+    font-weight: 700; display: block;
+  }
+  .stat-label {
+    font-size: 11px; color: rgba(255,255,255,0.6);
+    letter-spacing: 0.12em; font-weight: 300;
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 1.5rem; left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .scroll-hint span { font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 0.15em; }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+  /* ─── SECTION COMMON ─── */
+  section { padding: 7rem 4rem; }
+  .section-label {
+    font-size: 10px; letter-spacing: 0.25em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 1.5rem;
+  }
+  .section-desc {
+    font-size: 1rem; color: var(--stone);
+    max-width: 560px; font-weight: 300; line-height: 1.8;
+  }
+
+  /* ─── NOTICE BANNER ─── */
+  .notice-banner {
+    background: var(--ink);
+    padding: 1rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .notice-tag {
+    background: var(--red-tw);
+    color: white; font-size: 11px;
+    padding: 3px 10px; letter-spacing: 0.1em;
+    margin-right: 1rem; border-radius: 1px;
+  }
+  .notice-text { font-size: 13px; color: rgba(255,255,255,0.8); flex: 1; }
+  .notice-text strong { color: var(--gold-light); }
+  .notice-link { font-size: 12px; color: var(--gold); text-decoration: none; letter-spacing: 0.05em; }
+
+  /* ─── SEARCH BAR ─── */
+  .search-section {
+    background: var(--white);
+    padding: 3rem 4rem;
+    border-bottom: 1px solid var(--cream-dark);
+  }
+  .search-bar {
+    display: flex;
+    border: 1.5px solid var(--ink);
+    border-radius: 2px;
+    overflow: hidden;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .search-field {
+    flex: 1;
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0 1.5rem;
+    border-right: 1px solid var(--cream-dark);
+  }
+  .search-field label { font-size: 10px; letter-spacing: 0.15em; color: var(--stone); white-space: nowrap; }
+  .search-field select, .search-field input {
+    border: none; outline: none; font-size: 14px;
+    background: transparent; color: var(--ink);
+    font-family: 'Noto Sans TC', sans-serif;
+    flex: 1; padding: 1rem 0;
+    cursor: pointer;
+    appearance: none;
+  }
+  .search-btn {
+    padding: 0 2.5rem;
+    background: var(--ink); color: var(--gold-light);
+    border: none; cursor: pointer;
+    font-size: 13px; letter-spacing: 0.1em;
+    font-family: 'Noto Sans TC', sans-serif;
+    transition: background 0.2s;
+  }
+  .search-btn:hover { background: var(--ink-soft); }
+
+  /* ─── ROUTES ─── */
+  .routes-section { background: var(--cream); }
+  .routes-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 3rem;
+  }
+  .routes-tabs {
+    display: flex; gap: 0.5rem;
+    border-bottom: 1px solid var(--cream-dark);
+    margin-bottom: 3rem;
+  }
+  .tab {
+    padding: 0.75rem 1.5rem;
+    font-size: 13px; letter-spacing: 0.08em;
+    cursor: pointer; border: none; background: none;
+    color: var(--stone); border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    font-family: 'Noto Sans TC', sans-serif;
+    transition: all 0.2s;
+  }
+  .tab.active { color: var(--ink); border-bottom-color: var(--gold); font-weight: 500; }
+  .tab:hover:not(.active) { color: var(--ink-soft); }
+
+  .routes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: rgba(140,123,106,0.15);
+  }
+  .route-card {
+    background: var(--white);
+    overflow: hidden; cursor: pointer;
+    transition: transform 0.3s;
+    position: relative;
+  }
+  .route-card:hover { transform: translateY(-4px); z-index: 2; box-shadow: 0 20px 60px rgba(26,20,16,0.15); }
+  .route-card.featured {
+    grid-column: span 2; grid-row: span 2;
+  }
+  .route-img {
+    width: 100%; aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    background: var(--cream-dark);
+  }
+  .route-card.featured .route-img { aspect-ratio: 16/10; }
+  .route-body { padding: 1.5rem; }
+  .route-region {
+    font-size: 10px; letter-spacing: 0.2em; color: var(--gold-dark);
+    text-transform: uppercase; margin-bottom: 0.5rem;
+  }
+  .route-name {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.1rem; font-weight: 600;
+    color: var(--ink); margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+  .route-card.featured .route-name { font-size: 1.5rem; }
+  .route-meta {
+    display: flex; gap: 1.5rem; align-items: center;
+    font-size: 12px; color: var(--stone);
+    margin-bottom: 1rem;
+  }
+  .route-meta span { display: flex; align-items: center; gap: 4px; }
+  .route-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; color: var(--red-tw); font-weight: 700;
+  }
+  .route-price small { font-size: 0.6em; color: var(--stone); font-family: 'Noto Sans TC', sans-serif; font-weight: 400; }
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 10px; letter-spacing: 0.1em;
+    border-radius: 1px; margin-right: 4px;
+  }
+  .tag-promo { background: #FFF3CD; color: #8B6914; }
+  .tag-new { background: #D4EDDA; color: #155724; }
+  .tag-hot { background: #F8D7DA; color: #721C24; }
+
+  /* ─── PROMO BANNER ─── */
+  .promo-section {
+    background: var(--ink);
+    padding: 5rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center;
+  }
+  .promo-label { font-size: 10px; letter-spacing: 0.25em; color: var(--gold); margin-bottom: 1rem; }
+  .promo-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 900; color: var(--white);
+    line-height: 1.1; margin-bottom: 1.5rem;
+  }
+  .promo-title em { font-style: italic; font-family: 'Playfair Display', serif; color: var(--gold-light); }
+  .promo-desc { color: rgba(255,255,255,0.6); font-size: 0.95rem; font-weight: 300; margin-bottom: 2rem; }
+  .promo-tag {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    font-size: 12px; letter-spacing: 0.1em;
+    padding: 8px 20px; margin-bottom: 2rem;
+  }
+  .promo-visual {
+    position: relative;
+    aspect-ratio: 4/3;
+    border: 1px solid rgba(201,168,76,0.3);
+    overflow: hidden;
+  }
+  .promo-visual img {
+    width: 100%; height: 100%; object-fit: cover; opacity: 0.8;
+  }
+  .promo-badge {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    background: var(--gold);
+    color: var(--ink);
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+  }
+  .promo-badge .big { font-size: 1.6rem; font-weight: 700; line-height: 1; }
+  .promo-badge .small { font-size: 9px; letter-spacing: 0.1em; color: var(--ink-soft); }
+
+  /* ─── SERVICES ─── */
+  .services-section { background: var(--white); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+    margin-top: 4rem;
+  }
+  .service-item { text-align: center; }
+  .service-icon {
+    width: 60px; height: 60px;
+    background: var(--cream);
+    border: 1px solid var(--cream-dark);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    margin: 0 auto 1.25rem;
+  }
+  .service-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1rem; font-weight: 600;
+    color: var(--ink); margin-bottom: 0.5rem;
+  }
+  .service-desc { font-size: 13px; color: var(--stone); line-height: 1.7; font-weight: 300; }
+
+  /* ─── REVIEWS ─── */
+  .reviews-section { background: var(--cream-dark); }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(140,123,106,0.15);
+    margin-top: 3rem;
+  }
+  .review-card {
+    background: var(--white);
+    padding: 2rem;
+  }
+  .review-stars { color: var(--gold); font-size: 13px; margin-bottom: 1rem; letter-spacing: 2px; }
+  .review-text { font-size: 14px; color: var(--ink-soft); line-height: 1.8; font-weight: 300; margin-bottom: 1.5rem; font-style: italic; }
+  .review-author { display: flex; align-items: center; gap: 0.75rem; }
+  .review-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--cream-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 500; color: var(--stone);
+    border: 1px solid var(--cream-dark);
+  }
+  .review-name { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .review-loc { font-size: 11px; color: var(--stone); }
+
+  /* ─── TRAVEL COMPANIES ─── */
+  .companies-section {
+    background: var(--white);
+    padding: 4rem;
+    text-align: center;
+  }
+  .companies-label {
+    font-size: 10px; letter-spacing: 0.25em; color: var(--stone);
+    margin-bottom: 2.5rem;
+  }
+  .companies-list {
+    display: flex; flex-wrap: wrap;
+    gap: 2rem; justify-content: center; align-items: center;
+  }
+  .company-item {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 13px; color: var(--stone);
+    letter-spacing: 0.05em;
+    padding: 8px 16px;
+    border: 1px solid var(--cream-dark);
+    border-radius: 1px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .company-item:hover { border-color: var(--gold); color: var(--ink); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink);
+    padding: 5rem 4rem 2rem;
+    color: rgba(255,255,255,0.6);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+  .footer-brand { }
+  .footer-logo-text {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.1rem; font-weight: 600;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.25rem;
+  }
+  .footer-logo-en {
+    font-size: 10px; letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 1.5rem;
+  }
+  .footer-about { font-size: 13px; line-height: 1.8; font-weight: 300; max-width: 280px; }
+  .footer-gov {
+    margin-top: 1.5rem;
+    font-size: 11px; color: rgba(255,255,255,0.3);
+    letter-spacing: 0.05em;
+  }
+  .footer-col h4 {
+    font-size: 11px; letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 0.75rem; }
+  .footer-col a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--gold-light); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.25); }
+  .footer-social { display: flex; gap: 1rem; }
+  .social-btn {
+    width: 32px; height: 32px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; cursor: pointer;
+    transition: border-color 0.2s;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+  }
+  .social-btn:hover { border-color: var(--gold); color: var(--gold-light); }
+
+  /* ─── DIVIDER ORNAMENT ─── */
+  .ornament {
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--gold);
+    font-size: 18px;
+    letter-spacing: 8px;
+    opacity: 0.4;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-badge { animation: fadeUp 0.8s ease forwards; }
+  .hero-title { animation: fadeUp 0.8s 0.15s ease both; }
+  .hero-sub   { animation: fadeUp 0.8s 0.3s ease both; }
+  .hero-cta   { animation: fadeUp 0.8s 0.45s ease both; }
+  .hero-stats { animation: fadeUp 0.8s 0.6s ease both; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .routes-grid { grid-template-columns: 1fr; }
+    .route-card.featured { grid-column: 1; grid-row: 1; }
+    .promo-section { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .hero-stats { gap: 2rem; }
+    .notice-banner { padding: 1rem 1.5rem; }
+    .search-section { padding: 2rem 1.5rem; }
+    .search-bar { flex-direction: column; }
+    .search-field { border-right: none; border-bottom: 1px solid var(--cream-dark); }
+    .search-btn { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-text">台灣觀光</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#routes">行程路線</a></li>
+    <li><a href="#services">服務特色</a></li>
+    <li><a href="#companies">合作旅行社</a></li>
+    <li><a href="#about">關於我們</a></li>
+    <li><a href="#contact">聯絡我們</a></li>
+  </ul>
+  <div class="nav-actions">
+    <div class="lang-switch"><span>中文</span></div>
+    <button class="btn-book">立即預約</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">交通部觀光署 輔導營運 &nbsp;·&nbsp; Taiwan Tour Bus</div>
+    <h1 class="hero-title">
+      遊遍寶島<br><em>不開車，也自在</em>
+    </h1>
+    <p class="hero-sub">專業導覽 · 小團出行 · 全台 88 條精選路線</p>
+    <div class="hero-cta">
+      <a href="#routes" class="btn-primary">探索行程路線</a>
+      <a href="#services" class="btn-outline">了解服務特色</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">88</span>
+      <span class="stat-label">精選路線</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">23</span>
+      <span class="stat-label">合作旅行社</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">365</span>
+      <span class="stat-label">天天出發</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">4+</span>
+      <span class="stat-label">語言導覽</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>SCROLL</span>
+  </div>
+</section>
+
+<!-- NOTICE BANNER -->
+<div class="notice-banner">
+  <span class="notice-tag">最新優惠</span>
+  <span class="notice-text">🎉 114 年限定活動 &nbsp;·&nbsp; <strong>2 人同行 1 人免費</strong>，配合台灣觀光 100 亮點縣市加碼 <strong>3 折優惠</strong>，即日起至 10 月 31 日止</span>
+  <a href="#" class="notice-link">查看詳情 →</a>
+</div>
+
+<!-- SEARCH BAR -->
+<div class="search-section">
+  <div class="search-bar">
+    <div class="search-field">
+      <label>地區</label>
+      <select>
+        <option>全台灣</option>
+        <option>北部</option>
+        <option>中部</option>
+        <option>南部</option>
+        <option>東部</option>
+        <option>離島</option>
+      </select>
+    </div>
+    <div class="search-field">
+      <label>天數</label>
+      <select>
+        <option>不限</option>
+        <option>半日遊</option>
+        <option>一日遊</option>
+        <option>二日遊</option>
+        <option>多日遊</option>
+      </select>
+    </div>
+    <div class="search-field">
+      <label>出發日期</label>
+      <input type="text" placeholder="選擇日期" readonly>
+    </div>
+    <div class="search-field">
+      <label>人數</label>
+      <select>
+        <option>1 位</option>
+        <option>2 位</option>
+        <option>3 位</option>
+        <option>4 位以上</option>
+      </select>
+    </div>
+    <button class="search-btn">搜尋行程</button>
+  </div>
+</div>
+
+<!-- ROUTES -->
+<section class="routes-section" id="routes">
+  <div class="routes-header">
+    <div>
+      <div class="section-label">TOUR ROUTES</div>
+      <h2 class="section-title">精選行程路線</h2>
+      <p class="section-desc">從山林到海岸，從古都到秘境，每一條路線都是一段難忘的旅程。</p>
+    </div>
+    <a href="#" style="font-size:13px; color:var(--gold-dark); text-decoration:none; letter-spacing:0.08em;">查看全部路線 →</a>
+  </div>
+
+  <div class="routes-tabs">
+    <button class="tab active">全部路線</button>
+    <button class="tab">北部</button>
+    <button class="tab">中部</button>
+    <button class="tab">南部</button>
+    <button class="tab">東部</button>
+    <button class="tab">離島</button>
+  </div>
+
+  <div class="routes-grid">
+    <!-- Featured card -->
+    <div class="route-card featured">
+      <img class="route-img" src="https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=800&q=80" alt="花蓮" onerror="this.style.background='#E8C97A'">
+      <div class="route-body">
+        <div class="route-region">東部 · 花蓮</div>
+        <div class="route-name">花蓮太魯閣峽谷深度一日遊</div>
+        <div class="route-meta">
+          <span>🕐 10 小時</span>
+          <span>👥 1–4 人成行</span>
+          <span>🎧 中英日韓語導覽</span>
+        </div>
+        <span class="tag tag-hot">熱門路線</span>
+        <span class="tag tag-promo">2人同行優惠</span>
+        <div class="route-price">NT$ 2,800 <small>起 / 人</small></div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="route-card">
+      <img class="route-img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80" alt="北海岸" onerror="this.style.background='#C9A84C'">
+      <div class="route-body">
+        <div class="route-region">北部 · 新北</div>
+        <div class="route-name">北海岸野柳奇岩海天美景遊</div>
+        <div class="route-meta">
+          <span>🕐 10 小時</span>
+          <span>👥 1–4 人</span>
+        </div>
+        <span class="tag tag-promo">3折加碼</span>
+        <div class="route-price">NT$ 2,600 <small>起 / 人</small></div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="route-card">
+      <img class="route-img" src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=400&q=80" alt="九份" onerror="this.style.background='#2D5016'">
+      <div class="route-body">
+        <div class="route-region">北部 · 基隆</div>
+        <div class="route-name">九份平溪老街燈籠半日遊</div>
+        <div class="route-meta">
+          <span>🕐 4 小時</span>
+          <span>👥 1–4 人</span>
+        </div>
+        <span class="tag tag-new">新路線</span>
+        <div class="route-price">NT$ 1,600 <small>起 / 人</small></div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="route-card">
+      <img class="route-img" src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=400&q=80" alt="阿里山" onerror="this.style.background='#1B4E6B'">
+      <div class="route-body">
+        <div class="route-region">中部 · 嘉義</div>
+        <div class="route-name">阿里山日出雲海森林鐵路二日遊</div>
+        <div class="route-meta">
+          <span>🕐 2 天</span>
+          <span>👥 2 人成行</span>
+        </div>
+        <span class="tag tag-promo">2人同行優惠</span>
+        <div class="route-price">NT$ 5,800 <small>起 / 人</small></div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="route-card">
+      <img class="route-img" src="https://images.unsplash.com/photo-1548013146-72479768bada?w=400&q=80" alt="台南" onerror="this.style.background='#A0272A'">
+      <div class="route-body">
+        <div class="route-region">南部 · 台南</div>
+        <div class="route-name">古都台南歷史文化深度一日遊</div>
+        <div class="route-meta">
+          <span>🕐 8 小時</span>
+          <span>👥 1–4 人</span>
+        </div>
+        <div class="route-price">NT$ 1,980 <small>起 / 人</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROMO -->
+<div class="promo-section">
+  <div>
+    <div class="promo-label">SPECIAL OFFER · 限時優惠</div>
+    <h2 class="promo-title">2 人同行<br><em>1 人免費</em></h2>
+    <div class="promo-tag">114 年 1 月 1 日 – 10 月 31 日</div>
+    <p class="promo-desc">交通部觀光署力推，所有台灣觀光路線均適用，邀親友一同出遊，即享半價優惠。另配合觀光亮點輪值縣市加碼 3 折，省更多！</p>
+    <a href="#" class="btn-primary">立即把握優惠</a>
+  </div>
+  <div class="promo-visual">
+    <img src="https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?w=600&q=80" alt="優惠活動" onerror="this.style.background='#3D3228'">
+    <div class="promo-badge">
+      <span class="big">1</span>
+      <span class="small">人免費</span>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="section-label">OUR SERVICES</div>
+  <h2 class="section-title">為什麼選擇台灣觀光？</h2>
+  <p class="section-desc">從接送到導覽，從保險到餐食，我們為您安排一切，讓旅途無後顧之憂。</p>
+  <div class="services-grid">
+    <div class="service-item">
+      <div class="service-icon">🚌</div>
+      <div class="service-title">點對點專車接送</div>
+      <p class="service-desc">高鐵站、火車站、機場、各大飯店均可集合，省去自駕煩惱</p>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">🎧</div>
+      <div class="service-title">多語言導覽服務</div>
+      <p class="service-desc">專業導遊中文講解，並提供英、日、韓三語語音導覽及免費 Wi-Fi</p>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">🛡️</div>
+      <div class="service-title">全程保險保障</div>
+      <p class="service-desc">每位旅客享 250 萬旅行業責任險及 20 萬醫療險，安心有保障</p>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">👨‍👩‍👧</div>
+      <div class="service-title">小團靈活出行</div>
+      <p class="service-desc">最低 1–4 人即可成行，部分路線最少 2 人，不用等湊大團</p>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">🗓️</div>
+      <div class="service-title">365 天天天出發</div>
+      <p class="service-desc">全年無休，提前線上預約即可，行程彈性方便自由行旅客安排</p>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">🍱</div>
+      <div class="service-title">餐食代訂服務</div>
+      <p class="service-desc">未含餐食的行程皆可代訂，素食者請於報名時一同告知</p>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">🏨</div>
+      <div class="service-title">優惠住宿代訂</div>
+      <p class="service-desc">所有行程皆可代訂優惠住宿，輕鬆組合二日、三日旅遊行程</p>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">⭐</div>
+      <div class="service-title">政府品質保證</div>
+      <p class="service-desc">交通部觀光署輔導營運，超過百項管理規定，品質口碑卓越</p>
+    </div>
+  </div>
+</section>
+
+<div class="ornament">✦ ✦ ✦</div>
+
+<!-- REVIEWS -->
+<section class="reviews-section" id="reviews">
+  <div class="section-label">TRAVELER REVIEWS</div>
+  <h2 class="section-title">旅客真實評價</h2>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">「第一次來台灣自由行，選擇台灣觀光真的太對了！導遊非常專業，日文語音導覽清晰易懂，沿途景點都超過預期，下次還要再來！」</p>
+      <div class="review-author">
+        <div class="review-avatar">田</div>
+        <div>
+          <div class="review-name">田中 美咲</div>
+          <div class="review-loc">日本・東京</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">「兩人同行一人免費活動太划算了！北海岸路線景色壯闊，司機導遊都非常親切，在車上提供的零食和免費 WiFi 也很貼心。」</p>
+      <div class="review-author">
+        <div class="review-avatar">林</div>
+        <div>
+          <div class="review-name">林家豪</div>
+          <div class="review-loc">台灣・台中</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★☆</div>
+      <p class="review-text">「Excellent experience! The English audio guide was very detailed, and our guide was knowledgeable about local history. The small group format made the trip feel personal and special.」</p>
+      <div class="review-author">
+        <div class="review-avatar">S</div>
+        <div>
+          <div class="review-name">Sarah Chen</div>
+          <div class="review-loc">USA · San Francisco</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPANIES -->
+<div class="companies-section" id="companies">
+  <div class="companies-label">OFFICIAL PARTNER TRAVEL AGENCIES · 合作旅行社</div>
+  <div class="companies-list">
+    <div class="company-item">怡容國際旅行社</div>
+    <div class="company-item">可樂旅遊</div>
+    <div class="company-item">雄獅旅遊</div>
+    <div class="company-item">鳳凰旅行社</div>
+    <div class="company-item">東南旅遊</div>
+    <div class="company-item">燦星旅遊</div>
+    <div class="company-item">山富旅遊</div>
+    <div class="company-item">近畿旅遊</div>
+    <div class="company-item">喜鴻旅遊</div>
+    <div class="company-item">良友旅行社</div>
+    <div class="company-item">大統旅遊</div>
+    <div class="company-item">查看全部 23 家 →</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo-text">台灣觀光</div>
+      <div class="footer-logo-en">TAIWAN TOUR BUS</div>
+      <p class="footer-about">台灣觀光是交通部觀光署輔導旅行社推出的旅遊服務品牌，提供半日、一日、二日及多日環島行程，是國內外旅客深度遊台灣的最佳選擇。</p>
+      <p class="footer-gov">交通部觀光署 輔導營運 · Taiwan Tourism Administration</p>
+    </div>
+    <div class="footer-col">
+      <h4>行程路線</h4>
+      <ul>
+        <li><a href="#">北部路線</a></li>
+        <li><a href="#">中部路線</a></li>
+        <li><a href="#">南部路線</a></li>
+        <li><a href="#">東部路線</a></li>
+        <li><a href="#">離島路線</a></li>
+        <li><a href="#">環島多日遊</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>旅遊資訊</h4>
+      <ul>
+        <li><a href="#">最新消息</a></li>
+        <li><a href="#">優惠活動</a></li>
+        <li><a href="#">預約說明</a></li>
+        <li><a href="#">取消退費政策</a></li>
+        <li><a href="#">常見問題 FAQ</a></li>
+        <li><a href="#">旅行社列表</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>聯絡資訊</h4>
+      <ul>
+        <li><a href="#">客服專線</a></li>
+        <li><a href="#">線上客服</a></li>
+        <li><a href="#">申訴專線</a></li>
+        <li><a href="#">LINE 官方帳號</a></li>
+        <li><a href="#">隱私權政策</a></li>
+        <li><a href="#">服務條款</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 台灣觀光 Taiwan Tour Bus. 交通部觀光署 輔導營運</span>
+    <div class="footer-social">
+      <a class="social-btn" href="#" title="Facebook">f</a>
+      <a class="social-btn" href="#" title="Instagram">ig</a>
+      <a class="social-btn" href="#" title="LINE">L</a>
+      <a class="social-btn" href="#" title="YouTube">▶</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 50
+      ? 'rgba(26,20,16,0.97)'
+      : 'rgba(26,20,16,0.92)';
+  });
+</script>
+</body>
+</html>
